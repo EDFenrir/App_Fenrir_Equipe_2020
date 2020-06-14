@@ -1,6 +1,38 @@
 import 'package:flutter/material.dart';
-import './Stopwatch.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+Future<Post> fetchPost() async {
+  final response = await http.get('http://35.194.6.143/FenrirApi/newest');
+  if (response.statusCode == 200) {
+    return Post.fromJson(json.decode(response.body));
+  } else {
+    throw Exception('Falha ao carregar um post');
+  }
+}
+
+class Post {
+  final data;
+  final lap;
+  final lat;
+  final lon;
+  final vel;
+  final datetime;
+  Post({this.data, this.lap, this.lat, this.lon, this.vel, this.datetime});
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      data: json['data'],
+      lap: json['data']['lap'],
+      vel: json['data']['vel'],
+      datetime: json['data']['datetime'],
+    );
+  }
+}
+
+Future<Post> post;
+
+Post oldSnapshot = null;
 
 void main() {
   runApp(MyApp());
@@ -19,7 +51,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, post}) : super(key: key);
   final String title;
 
   @override
@@ -48,9 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startButtonPressed() {
     setState(() {
-        _isStart = false;
-        _stopWatch.start();
-        _startTimeout();
+      _isStart = false;
+      _stopWatch.start();
+      _startTimeout();
     });
   }
 
@@ -59,10 +91,9 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_stopWatch.isRunning) {
         _isStart = true;
         _stopWatch.stop();
-      } 
+      }
     });
   }
-  
 
   void _resetButtonPressed() {
     if (_stopWatch.isRunning) {
@@ -82,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
         (_stopWatch.elapsed.inMilliseconds % 1000).toString().padLeft(3, '0');
   }
 
+  final ScrollController controller = ScrollController();
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -110,12 +142,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               leading: Icon(Icons.play_arrow),
               title: Text('Play'),
-              onTap: () {_startButtonPressed();},
+              onTap: () {
+                _startButtonPressed();
+              },
             ),
             ListTile(
               leading: Icon(Icons.pause),
               title: Text('Pause'),
-              onTap: () {_stopButtonPressed();},
+              onTap: () {
+                _stopButtonPressed();
+              },
             ),
             ListTile(
               onTap: () {
@@ -209,8 +245,39 @@ class _MyHomePageState extends State<MyHomePage> {
                   )),
               Expanded(
                 flex: 35,
-                child: Container(
-                  color: Colors.red,
+                child: Center(
+                  child: FutureBuilder<Post>(
+                    future: fetchPost(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data != null && snapshot.data!= oldSnapshot) {
+                        oldSnapshot = snapshot.data;
+                        return ListView.separated(itemBuilder: (_, index) => Text('Volta :' +
+                              snapshot.data.lap.toString() +
+                              ' Velocidade :' +
+                              snapshot.data.vel.toString() +
+                              ' Tempo :' +
+                              snapshot.data.datetime.toString()),
+                               separatorBuilder: (_, int i) => Divider(), 
+                               itemCount: 28,
+                               controller: controller,
+                          );
+                        /*Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('Volta :' +
+                              snapshot.data.lap.toString() +
+                              ' Velocidade :' +
+                              snapshot.data.vel.toString() +
+                              ' Tempo :' +
+                              snapshot.data.datetime.toString()),
+                        );*/
+                      } else if (snapshot.hasError) {
+                        print("estou aqui 3");
+                        return Text("${snapshot.error}");
+                      }
+                      print("estou aqui 2");
+                      return CircularProgressIndicator();
+                    },
+                  ),
                 ),
               ),
             ])
@@ -219,48 +286,46 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-showAlertDialog(BuildContext context) {
-  Widget cancelaButton = FlatButton(
-    child: Text(
-      "Cancelar",
-      style: TextStyle(
-        color: Color(0xFFFF0000),
+
+  showAlertDialog(BuildContext context) {
+    Widget cancelaButton = FlatButton(
+      child: Text(
+        "Cancelar",
+        style: TextStyle(
+          color: Color(0xFFFF0000),
+        ),
       ),
-    ),
-    onPressed: () {
-      Navigator.pop(context);
-    },
-  );
-  Widget continuaButton = FlatButton(
-    child: Text(
-      "Continar",
-      style: TextStyle(
-        color: Color(0xFF008000),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continuaButton = FlatButton(
+      child: Text(
+        "Continar",
+        style: TextStyle(
+          color: Color(0xFF008000),
+        ),
       ),
-    ),
-    onPressed: () {
-              _resetButtonPressed();
-              Navigator.pop(context);
-    },
-  );
-  //configura o AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("RESET"),
-    content: Text("Você está absolutamente certo disso ?"),
-    actions: [
-      cancelaButton,
-      continuaButton,
-    ],
-  );
-  //exibe o diálogo
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+      onPressed: () {
+        _resetButtonPressed();
+        Navigator.pop(context);
+      },
+    );
+    //configura o AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("RESET"),
+      content: Text("Você está absolutamente certo disso ?"),
+      actions: [
+        cancelaButton,
+        continuaButton,
+      ],
+    );
+    //exibe o diálogo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
-
-
-}
-
