@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import './getData.dart';
 
-Future<Post> fetchPost() async {
+/*Future<Post> fetchPost() async {
   final response = await http.get('http://35.194.6.143/FenrirApi/newest');
   if (response.statusCode == 200) {
     return Post.fromJson(json.decode(response.body));
@@ -33,6 +34,10 @@ class Post {
 Future<Post> post;
 
 Post oldSnapshot = null;
+
+var previous = null;
+var current = null;
+*/
 
 void main() {
   runApp(MyApp());
@@ -246,39 +251,32 @@ class _MyHomePageState extends State<MyHomePage> {
               Expanded(
                 flex: 35,
                 child: Center(
-                  child: FutureBuilder<Post>(
+                  child: ListView(
+                    children: <Widget>[getData()],),
+                  
+                  /*ListView(
+                   children: <Widget>[
+                     FutureBuilder<Post>(
+                    
                     future: fetchPost(),
                     builder: (context, snapshot) {
-                      if (snapshot.data != null && snapshot.data!= oldSnapshot) {
-                        oldSnapshot = snapshot.data;
-                        return ListView.separated(itemBuilder: (_, index) => Text('Volta :' +
-                              snapshot.data.lap.toString() +
-                              ' Velocidade :' +
-                              snapshot.data.vel.toString() +
-                              ' Tempo :' +
-                              snapshot.data.datetime.toString()),
-                               separatorBuilder: (_, int i) => Divider(), 
-                               itemCount: 28,
-                               controller: controller,
-                          );
-                        /*Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text('Volta :' +
-                              snapshot.data.lap.toString() +
-                              ' Velocidade :' +
-                              snapshot.data.vel.toString() +
-                              ' Tempo :' +
-                              snapshot.data.datetime.toString()),
-                        );*/
+                      current = snapshot.data.datetime.toString();
+                      if (snapshot.data != null && current!= previous)  {
+                        previous = snapshot.data.datetime.toString(); 
+                        return ListTile(title: Text('Volta :' +
+                              snapshot.data.lap.toString()));
+                                              
                       } else if (snapshot.hasError) {
-                        print("estou aqui 3");
+                        //print("estou aqui 3");
                         return Text("${snapshot.error}");
                       }
-                      print("estou aqui 2");
+                      //print("estou aqui 2");
                       return CircularProgressIndicator();
                     },
-                  ),
-                ),
+                  ),]
+ 
+                  )*/
+                                  ),
               ),
             ])
           ]),
