@@ -4,41 +4,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import './getData.dart';
 
-/*Future<Post> fetchPost() async {
-  final response = await http.get('http://35.194.6.143/FenrirApi/newest');
-  if (response.statusCode == 200) {
-    return Post.fromJson(json.decode(response.body));
-  } else {
-    throw Exception('Falha ao carregar um post');
-  }
-}
-
-class Post {
-  final data;
-  final lap;
-  final lat;
-  final lon;
-  final vel;
-  final datetime;
-  Post({this.data, this.lap, this.lat, this.lon, this.vel, this.datetime});
-  factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(
-      data: json['data'],
-      lap: json['data']['lap'],
-      vel: json['data']['vel'],
-      datetime: json['data']['datetime'],
-    );
-  }
-}
-
-Future<Post> post;
-
-Post oldSnapshot = null;
-
-var previous = null;
-var current = null;
-*/
-
 void main() {
   runApp(MyApp());
 }
@@ -251,32 +216,8 @@ class _MyHomePageState extends State<MyHomePage> {
               Expanded(
                 flex: 35,
                 child: Center(
-                  child: ListView(
-                    children: <Widget>[getData()],),
-                  
-                  /*ListView(
-                   children: <Widget>[
-                     FutureBuilder<Post>(
-                    
-                    future: fetchPost(),
-                    builder: (context, snapshot) {
-                      current = snapshot.data.datetime.toString();
-                      if (snapshot.data != null && current!= previous)  {
-                        previous = snapshot.data.datetime.toString(); 
-                        return ListTile(title: Text('Volta :' +
-                              snapshot.data.lap.toString()));
-                                              
-                      } else if (snapshot.hasError) {
-                        //print("estou aqui 3");
-                        return Text("${snapshot.error}");
-                      }
-                      //print("estou aqui 2");
-                      return CircularProgressIndicator();
-                    },
-                  ),]
- 
-                  )*/
-                                  ),
+                  child: getData(),
+               ),
               ),
             ])
           ]),
