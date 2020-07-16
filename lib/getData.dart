@@ -88,3 +88,51 @@ class _GetDataState extends State<getData> {
     );
   }
 }
+
+class velocidade extends StatefulWidget {
+  velocidade({Key key, this.title, post}) : super(key: key);
+  final String title;
+  @override
+  _velocidadeState createState() => _velocidadeState();
+}
+
+class _velocidadeState extends State<velocidade> {
+  Timer timer;
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(
+        Duration(milliseconds: 500), (Timer t) => setState(() {}));
+  }
+
+  int i = 0, n = 1;
+  double velmedia = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Post>(
+      future: fetchPost(),
+      builder: (context, snapshot) {
+        current = snapshot.data.lap.toString();
+        if (snapshot.data != null) {
+          if (previous != current) {
+            velmedia = (velmedia*i + snapshot.data.vel)/n;
+            i++;
+            n++;
+          }
+          //print(current);
+          //print(previous);
+          previous = snapshot.data.lap.toString();
+              return Text(
+                "\n \n " + velmedia.toString(),
+                style: TextStyle(fontSize: 55, color: Colors.black),
+              );
+
+
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return CircularProgressIndicator();
+      },
+    );
+  }
+}
