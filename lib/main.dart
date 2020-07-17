@@ -178,10 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Expanded(
                 flex: 25,
                 child: Center(
-                  child: Text(
-                    "\n \n 20 km/h",
-                    style: TextStyle(fontSize: 55, color: Colors.black),
-                  ),
+                  child: velocidade(),
                 ),
               ),
               //Cronometro da volta atual -- falta implementação
