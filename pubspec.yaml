@@ -27,5 +27,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/fenrir.png
+    - assets/images/semafaro.jpg
     - assets/images/fenrir_completo.png
   

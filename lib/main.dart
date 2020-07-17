@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import './getData.dart';
 
 void main() {
   runApp(MyApp());
 }
+
+//Início da criação do Widget
 
 class MyApp extends StatelessWidget {
   @override
@@ -23,13 +23,13 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title, post}) : super(key: key);
   final String title;
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  //Crônometro início
   bool _isStart = true;
   String _stopwatchText = '00:00.000';
   final _stopWatch = new Stopwatch();
@@ -83,12 +83,14 @@ class _MyHomePageState extends State<MyHomePage> {
         (_stopWatch.elapsed.inMilliseconds % 1000).toString().padLeft(3, '0');
   }
 
+  //Cronometro final
   final ScrollController controller = ScrollController();
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      //Menu
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -101,14 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 image: AssetImage('assets/images/fenrir_completo.png'),
                 fit: BoxFit.contain,
               ),
-              /*Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 24,
-                ),
-              ),*/
             ),
+            //Botão de Play
             ListTile(
               leading: Icon(Icons.play_arrow),
               title: Text('Play'),
@@ -116,6 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 _startButtonPressed();
               },
             ),
+            //Botão de Pause
             ListTile(
               leading: Icon(Icons.pause),
               title: Text('Pause'),
@@ -123,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 _stopButtonPressed();
               },
             ),
+            //Botão de Reset
             ListTile(
               onTap: () {
                 showAlertDialog(context);
@@ -130,9 +128,17 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: Icon(Icons.refresh),
               title: Text('Reset'),
             ),
+            ListTile(
+              onTap: () {
+                cleanList();
+              },
+              leading: Icon(Icons.delete_forever),
+              title: Text('Clear sectors'),
+            ),
           ],
         ),
       ),
+      //imagem de fundo
       body: Center(
         child: Container(
           child: Stack(children: <Widget>[
@@ -148,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            //Cronômetro geral
             Column(children: <Widget>[
               Expanded(
                 flex: 10,
@@ -167,6 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
+              //Velocidade média -- falta implementação
               Expanded(
                 flex: 25,
                 child: Center(
@@ -176,6 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
+              //Cronometro da volta atual -- falta implementação
               Expanded(
                   flex: 20,
                   child: Center(
@@ -213,11 +222,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   )),
+              //Lista de setores
+              Divider(height: 5,
+              color: Colors.black), 
               Expanded(
                 flex: 35,
-                child: Center(
+                child:Container(
+                  child:Center(
                   child: getData(),
-               ),
+                ),),
               ),
             ])
           ]),
@@ -226,6 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //caixa de confirmação do RESET
   showAlertDialog(BuildContext context) {
     Widget cancelaButton = FlatButton(
       child: Text(
@@ -240,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     Widget continuaButton = FlatButton(
       child: Text(
-        "Continar",
+        "Continuar",
         style: TextStyle(
           color: Color(0xFF008000),
         ),
@@ -253,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //configura o AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("RESET"),
-      content: Text("Você está absolutamente certo disso ?"),
+      content: Text("Tem certeza que deseja continuar ?"),
       actions: [
         cancelaButton,
         continuaButton,
