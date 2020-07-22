@@ -123,14 +123,14 @@ class _MyHomePageState extends State<MyHomePage> {
             //Botão de Reset
             ListTile(
               onTap: () {
-                showAlertDialog(context);
+                showAlertDialogReset(context);
               },
               leading: Icon(Icons.refresh),
               title: Text('Reset'),
             ),
             ListTile(
               onTap: () {
-                cleanList();
+                showAlertDialogClear(context);
               },
               leading: Icon(Icons.delete_forever),
               title: Text('Clear sectors'),
@@ -237,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //caixa de confirmação do RESET
-  showAlertDialog(BuildContext context) {
+  showAlertDialogReset(BuildContext context) {
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
@@ -265,6 +265,49 @@ class _MyHomePageState extends State<MyHomePage> {
     AlertDialog alert = AlertDialog(
       title: Text("RESET"),
       content: Text("Tem certeza que deseja continuar ?"),
+      actions: [
+        cancelaButton,
+        continuaButton,
+      ],
+    );
+    //exibe o diálogo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  //Caixa de confirmação clear sectors
+  showAlertDialogClear(BuildContext context) {
+    Widget cancelaButton = FlatButton(
+      child: Text(
+        "Cancelar",
+        style: TextStyle(
+          color: Color(0xFFFF0000),
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continuaButton = FlatButton(
+      child: Text(
+        "Continuar",
+        style: TextStyle(
+          color: Color(0xFF008000),
+        ),
+      ),
+      onPressed: () {
+        cleanList();
+        Navigator.pop(context);
+      },
+    );
+    //configura o AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("RESET"),
+      content: Text("Você está prestes a apagar TODOS os dados, deseja continuar ?"),
       actions: [
         cancelaButton,
         continuaButton,
