@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import './getData.dart';
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),
@@ -30,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   //Crônometro início
+  bool flag = true;
   bool _isStart = true;
   String _stopwatchText = '00:00.000';
   final _stopWatch = new Stopwatch();
@@ -131,6 +134,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               onTap: () {
                 showAlertDialogClear(context);
+                velmedia = 0;
+                n = 1;
+                i = 0;
               },
               leading: Icon(Icons.delete_forever),
               title: Text('Clear sectors'),
@@ -157,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //Cronômetro geral
             Column(children: <Widget>[
               Expanded(
-                flex: 10,
+                flex: 1,
                 child: Center(
                   child: Column(
                     children: <Widget>[
@@ -176,19 +182,19 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               //Velocidade média -- falta implementação
               Expanded(
-                flex: 25,
+                flex: 2,
                 child: Center(
                   child: velocidade(),
                 ),
               ),
               //Cronometro da volta atual -- falta implementação
               Expanded(
-                  flex: 20,
+                  flex: 3,
                   child: Center(
                     child: Column(
                       children: <Widget>[
                         Text(
-                          "\n \n Volta Atual ",
+                          "\n Volta Atual ",
                           style: TextStyle(fontSize: 25, color: Colors.black),
                         ),
                         Text(
@@ -223,12 +229,55 @@ class _MyHomePageState extends State<MyHomePage> {
               Divider(height: 5,
               color: Colors.black), 
               Expanded(
-                flex: 35,
+                flex: 4,
                 child:Container(
                   child:Center(
-                  child: getData(),
+                  child: flag
+                    ? getData()
+                    : Text ("teste"),
                 ),),
               ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                    child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        color: flag
+                        ? Colors.yellow
+                        : Colors.white,
+                        child: FlatButton(
+                          child: Icon(Icons.drive_eta),
+                          onPressed: (){
+                            setState(() {
+                              flag = true;
+                            });
+                          },
+                        ),
+                      )
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        color: flag
+                            ? Colors.white
+                            : Colors.yellow,
+                        child: FlatButton(
+                          child: Icon(Icons.timer),
+                          onPressed: (){
+                            setState(() {
+                              flag = false;
+                            });
+                          },
+                        ),
+                      )
+                    )
+                  ],
+                )
+              ),
+              )
             ])
           ]),
         ),

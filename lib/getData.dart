@@ -42,7 +42,13 @@ List<double> novo = List<double>();
 Post oldSnapshot = null;
 
 String previous = null;
+String previous2 = null;
 String current = null;
+String current2 = null;
+
+int i = 0, n = 1;
+double velmedia = 0;
+
 
 class getData extends StatefulWidget {
   getData({Key key, this.title, post}) : super(key: key);
@@ -61,13 +67,22 @@ class _GetDataState extends State<getData> {
         Duration(milliseconds: 500), (Timer t) => setState(() {}));
   }
 
+
   Widget build(BuildContext context) {
     //resultado da requisição de dados
     return FutureBuilder<Post>(
       future: fetchPost(),
       builder: (context, snapshot) {
         current = snapshot.data.lap.toString();
+        current2 = snapshot.data.datetime.toString();
         if (snapshot.data != null) {
+
+          if(previous2 != current2) {
+            velmedia = (velmedia * i + snapshot.data.vel) / n;
+            i++;
+            n++;
+            print(velmedia);
+          }
           //verificação de dados novos
           if (previous != current) {
             dados.add(' Volta: ' +
@@ -81,6 +96,7 @@ class _GetDataState extends State<getData> {
             referencia.add(snapshot.data.vel);
           }
           previous = snapshot.data.lap.toString();
+          previous2 = snapshot.data.datetime.toString();
           //tipo de lista
           if (dados.length != 0) {
             return ListView.separated(
@@ -130,7 +146,8 @@ class _GetDataState extends State<getData> {
               ),
             ]));
           }
-        } else if (snapshot.hasError) {
+        }
+        else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
         //barra de progresso
@@ -154,41 +171,35 @@ class velocidade extends StatefulWidget {
 
 class _velocidadeState extends State<velocidade> {
   Timer timer;
+  //Atualização dos setores
   void initState() {
     super.initState();
     timer = Timer.periodic(
         Duration(milliseconds: 500), (Timer t) => setState(() {}));
   }
-
-  int i = 0, n = 1;
-  double velmedia = 0;
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Post>(
-      future: fetchPost(),
-      builder: (context, snapshot) {
-        current = snapshot.data.lap.toString();
-        if (snapshot.data != null) {
-          if (previous != current) {
-            velmedia = (velmedia*i + snapshot.data.vel)/n;
-            i++;
-            n++;
-          }
-          //print(current);
-          //print(previous);
-          previous = snapshot.data.lap.toString();
-              return Text(
-                "\n \n " + velmedia.toString(),
-                style: TextStyle(fontSize: 55, color: Colors.black),
-              );
-
-
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return CircularProgressIndicator();
-      },
+    return
+    Text(velmedia.toStringAsFixed(2),
+      style: TextStyle(fontSize: 50, color: Colors.black),
     );
   }
 }
+
+
+class tabs extends StatefulWidget {
+  @override
+  _tabsState createState() => _tabsState();
+}
+
+class _tabsState extends State<tabs> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+
+    );
+  }
+}
+
+
+
