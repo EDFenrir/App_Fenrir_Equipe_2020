@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import './getData.dart';
 
 class cronometro extends StatefulWidget {
   @override
@@ -13,7 +12,7 @@ class _cronometroState extends State<cronometro> {
   bool _isStart = true;
   String _stopwatchText = '00:00.000';
   final _stopWatch = new Stopwatch();
-  final _timeout = const Duration(milliseconds: 1);
+  final _timeout = const Duration(milliseconds: 2);
 
   void _startTimeout() {
     new Timer(_timeout, _handleTimeout);
