@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import './getData.dart';
+<<<<<<< HEAD
 import 'volta_atual.dart';
+=======
+>>>>>>> e61586f1b90f71aa3eb776db037388a1def9ebc4
 
 void main() {
   runApp(MyApp());
@@ -192,6 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Expanded(
                   flex: 3,
                   child: Center(
+<<<<<<< HEAD
                     child: cronometro(),
                   )),
               //Lista de setores
@@ -203,6 +207,53 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: flag ? getData() : Text("teste"),
                   ),
                 ),
+=======
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          "\n Volta Atual ",
+                          style: TextStyle(fontSize: 25, color: Colors.black),
+                        ),
+                        Text(
+                          "00:46:00",
+                          style: TextStyle(fontSize: 20, color: Colors.black),
+                        ),
+                        RaisedButton(
+                          onPressed: () {},
+                          textColor: Colors.black,
+                          padding: const EdgeInsets.all(0.0),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: <Color>[
+                                  Colors.yellow,
+                                  Color(0xFFFFFF00),
+                                  Color(0xFFFFFF80),
+                                ],
+                              ),
+                            ),
+                            padding: const EdgeInsets.all(10.0),
+                            child: const Text(
+                              '    START    ',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+              //Lista de setores
+              Divider(height: 5,
+              color: Colors.black), 
+              Expanded(
+                flex: 4,
+                child:Container(
+                  child:Center(
+                  child: flag
+                    ? getData()
+                    : Text ("teste"),
+                ),),
+>>>>>>> e61586f1b90f71aa3eb776db037388a1def9ebc4
               ),
               Expanded(
                 flex: 1,
@@ -210,6 +261,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Row(
                   children: <Widget>[
                     Expanded(
+<<<<<<< HEAD
                         flex: 1,
                         child: Container(
                           color: flag ? Colors.yellow : Colors.white,
@@ -237,6 +289,42 @@ class _MyHomePageState extends State<MyHomePage> {
                         ))
                   ],
                 )),
+=======
+                      flex: 1,
+                      child: Container(
+                        color: flag
+                        ? Colors.yellow
+                        : Colors.white,
+                        child: FlatButton(
+                          child: Icon(Icons.drive_eta),
+                          onPressed: (){
+                            setState(() {
+                              flag = true;
+                            });
+                          },
+                        ),
+                      )
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        color: flag
+                            ? Colors.white
+                            : Colors.yellow,
+                        child: FlatButton(
+                          child: Icon(Icons.timer),
+                          onPressed: (){
+                            setState(() {
+                              flag = false;
+                            });
+                          },
+                        ),
+                      )
+                    )
+                  ],
+                )
+              ),
+>>>>>>> e61586f1b90f71aa3eb776db037388a1def9ebc4
               )
             ])
           ]),
@@ -316,8 +404,12 @@ class _MyHomePageState extends State<MyHomePage> {
     //configura o AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("RESET"),
+<<<<<<< HEAD
       content:
           Text("Você está prestes a apagar TODOS os dados, deseja continuar ?"),
+=======
+      content: Text("Você está prestes a apagar TODOS os dados, deseja continuar ?"),
+>>>>>>> e61586f1b90f71aa3eb776db037388a1def9ebc4
       actions: [
         cancelaButton,
         continuaButton,
