@@ -12,7 +12,7 @@ class _cronometroState extends State<cronometro> {
   bool _isStart = true;
   String _stopwatchText = '00:00.000';
   final _stopWatch = new Stopwatch();
-  final _timeout = const Duration(milliseconds: 2);
+  final _timeout = const Duration(milliseconds: 1);
 
   void _startTimeout() {
     new Timer(_timeout, _handleTimeout);
