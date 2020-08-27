@@ -128,23 +128,23 @@ class _GetDataState extends State<getData> {
           } else {
             return Container(
                 child: Stack(children: <Widget>[
-              Opacity(
-                opacity: 0.8,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/semafaro.jpg'),
-                      fit: BoxFit.contain,
-                      alignment: Alignment(0.0, -0.5),
+                  Opacity(
+                    opacity: 0.8,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/semafaro.jpg'),
+                          fit: BoxFit.contain,
+                          alignment: Alignment(0.0, -0.5),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              Container(
-                child: Text("Volta não iniciada",style: TextStyle(fontSize: 40, color: Colors.black),),
-                alignment: Alignment(0, -1),
-              ),
-            ]));
+                  Container(
+                    child: Text("Volta não iniciada",style: TextStyle(fontSize: 40, color: Colors.black),),
+                    alignment: Alignment(0, -1),
+                  ),
+                ]));
           }
         }
         else if (snapshot.hasError) {
@@ -180,9 +180,9 @@ class _velocidadeState extends State<velocidade> {
   @override
   Widget build(BuildContext context) {
     return
-    Text(velmedia.toStringAsFixed(2),
-      style: TextStyle(fontSize: 50, color: Colors.black),
-    );
+      Text(velmedia.toStringAsFixed(2),
+        style: TextStyle(fontSize: 50, color: Colors.black),
+      );
   }
 }
 
@@ -200,6 +200,3 @@ class _tabsState extends State<tabs> {
     );
   }
 }
-
-
-
