@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import './getData.dart';
-<<<<<<< HEAD
 import 'volta_atual.dart';
-=======
->>>>>>> e61586f1b90f71aa3eb776db037388a1def9ebc4
+
+List<String> temposVoltas = List<String>();
+int voltaAnterior = 1;
+int tempoVolta;
+List<int> listaTeste = List<int>();
 
 void main() {
   runApp(MyApp());
@@ -14,6 +16,7 @@ void main() {
 //Início da criação do Widget
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,63 +37,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  @override
-  //Crônometro início
+
+
   bool flag = true;
-  bool _isStart = true;
-  String _stopwatchText = '00:00.000';
-  final _stopWatch = new Stopwatch();
-  final _timeout = const Duration(milliseconds: 1);
 
-  void _startTimeout() {
-    new Timer(_timeout, _handleTimeout);
-  }
 
-  void _handleTimeout() {
-    if (_stopWatch.isRunning) {
-      _startTimeout();
-    }
-    setState(() {
-      _setStopwatchText();
-    });
-  }
 
-  void _startButtonPressed() {
-    setState(() {
-      _isStart = false;
-      _stopWatch.start();
-      _startTimeout();
-    });
-  }
-
-  void _stopButtonPressed() {
-    setState(() {
-      if (_stopWatch.isRunning) {
-        _isStart = true;
-        _stopWatch.stop();
-      }
-    });
-  }
-
-  void _resetButtonPressed() {
-    if (_stopWatch.isRunning) {
-      _stopButtonPressed();
-    }
-    setState(() {
-      _stopWatch.reset();
-      _setStopwatchText();
-    });
-  }
-
-  void _setStopwatchText() {
-    _stopwatchText = _stopWatch.elapsed.inMinutes.toString().padLeft(2, '0') +
-        ':' +
-        (_stopWatch.elapsed.inSeconds % 60).toString().padLeft(2, '0') +
-        '.' +
-        (_stopWatch.elapsed.inMilliseconds % 1000).toString().padLeft(3, '0');
-  }
-
-  //Cronometro final
   final ScrollController controller = ScrollController();
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,7 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: Icon(Icons.play_arrow),
               title: Text('Play'),
               onTap: () {
-                _startButtonPressed();
+                setState(() {
+                  startButtonPressed2();
+                  startButtonPressed();
+                  flag2 = false;
+                });
               },
             ),
             //Botão de Pause
@@ -124,7 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: Icon(Icons.pause),
               title: Text('Pause'),
               onTap: () {
-                _stopButtonPressed();
+                setState(() {
+                  stopButtonPressed();
+                  stopButtonPressed2();
+                  flag2 = true;
+                });
               },
             ),
             //Botão de Reset
@@ -143,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 i = 0;
               },
               leading: Icon(Icons.delete_forever),
-              title: Text('Clear sectors'),
+              title: Text('Clear sectors and time lap'),
             ),
           ],
         ),
@@ -172,13 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     children: <Widget>[
                       Expanded(
-                        child: FittedBox(
-                          fit: BoxFit.none,
-                          child: Text(
-                            _stopwatchText,
-                            style: TextStyle(fontSize: 30),
-                          ),
-                        ),
+                        child: oi(),
                       ),
                     ],
                   ),
@@ -195,65 +149,19 @@ class _MyHomePageState extends State<MyHomePage> {
               Expanded(
                   flex: 3,
                   child: Center(
-<<<<<<< HEAD
-                    child: cronometro(),
-                  )),
-              //Lista de setores
-              Divider(height: 5, color: Colors.black),
-              Expanded(
-                flex: 4,
-                child: Container(
-                  child: Center(
-                    child: flag ? getData() : Text("teste"),
-                  ),
-                ),
-=======
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          "\n Volta Atual ",
-                          style: TextStyle(fontSize: 25, color: Colors.black),
-                        ),
-                        Text(
-                          "00:46:00",
-                          style: TextStyle(fontSize: 20, color: Colors.black),
-                        ),
-                        RaisedButton(
-                          onPressed: () {},
-                          textColor: Colors.black,
-                          padding: const EdgeInsets.all(0.0),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: <Color>[
-                                  Colors.yellow,
-                                  Color(0xFFFFFF00),
-                                  Color(0xFFFFFF80),
-                                ],
-                              ),
-                            ),
-                            padding: const EdgeInsets.all(10.0),
-                            child: const Text(
-                              '    START    ',
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: cronometro()
                   )),
               //Lista de setores
               Divider(height: 5,
-              color: Colors.black), 
+              color: Colors.black),
               Expanded(
                 flex: 4,
                 child:Container(
                   child:Center(
                   child: flag
                     ? getData()
-                    : Text ("teste"),
+                    : Text('oi'),
                 ),),
->>>>>>> e61586f1b90f71aa3eb776db037388a1def9ebc4
               ),
               Expanded(
                 flex: 1,
@@ -261,35 +169,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Row(
                   children: <Widget>[
                     Expanded(
-<<<<<<< HEAD
-                        flex: 1,
-                        child: Container(
-                          color: flag ? Colors.yellow : Colors.white,
-                          child: FlatButton(
-                            child: Icon(Icons.drive_eta),
-                            onPressed: () {
-                              setState(() {
-                                flag = true;
-                              });
-                            },
-                          ),
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                          color: flag ? Colors.white : Colors.yellow,
-                          child: FlatButton(
-                            child: Icon(Icons.timer),
-                            onPressed: () {
-                              setState(() {
-                                flag = false;
-                              });
-                            },
-                          ),
-                        ))
-                  ],
-                )),
-=======
                       flex: 1,
                       child: Container(
                         color: flag
@@ -324,7 +203,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 )
               ),
->>>>>>> e61586f1b90f71aa3eb776db037388a1def9ebc4
               )
             ])
           ]),
@@ -354,8 +232,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       onPressed: () {
-        _resetButtonPressed();
-        Navigator.pop(context);
+        setState(() {
+          resetButtonPressed();
+          Navigator.pop(context);
+          resetButtonPressed2();
+          flag2 = true;
+        });
       },
     );
     //configura o AlertDialog
@@ -397,19 +279,19 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       onPressed: () {
-        cleanList();
-        Navigator.pop(context);
+        setState(() {
+          cleanList();
+          temposVoltas.clear();
+          Navigator.pop(context);
+          voltaAnterior = 1;
+          listaTeste.clear();
+        });
       },
     );
     //configura o AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("RESET"),
-<<<<<<< HEAD
-      content:
-          Text("Você está prestes a apagar TODOS os dados, deseja continuar ?"),
-=======
       content: Text("Você está prestes a apagar TODOS os dados, deseja continuar ?"),
->>>>>>> e61586f1b90f71aa3eb776db037388a1def9ebc4
       actions: [
         cancelaButton,
         continuaButton,

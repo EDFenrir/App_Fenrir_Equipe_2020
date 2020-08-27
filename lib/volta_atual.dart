@@ -2,6 +2,57 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+bool isStart2 = true;
+String stopwatchText2 = '00:00.000';
+final stopWatch2 = new Stopwatch();
+final timeout2 = const Duration(milliseconds: 1);
+bool flag2 = true;
+
+void startTimeout2() {
+  new Timer(timeout2, handleTimeout2);
+}
+
+void handleTimeout2() {
+  if (stopWatch2.isRunning) {
+    startTimeout2();
+  }
+    setStopwatchText2();
+}
+
+void startButtonPressed2() {
+    isStart2 = false;
+    stopWatch2.start();
+    startTimeout2();
+}
+
+void resetStartButtonPressed2() {
+    stopWatch2.reset();
+}
+
+void stopButtonPressed2() {
+    if (stopWatch2.isRunning) {
+      isStart2 = true;
+      stopWatch2.stop();
+    }
+}
+
+void resetButtonPressed2() {
+  if (stopWatch2.isRunning) {
+    stopButtonPressed2();
+  }
+    stopWatch2.reset();
+    setStopwatchText2();
+}
+
+void setStopwatchText2() {
+  stopwatchText2 = stopWatch2.elapsed.inMinutes.toString().padLeft(2, '0') +
+      ':' +
+      (stopWatch2.elapsed.inSeconds % 60).toString().padLeft(2, '0') +
+      ':' +
+      (stopWatch2.elapsed.inMilliseconds % 1000).toString().padLeft(3, '0');
+}
+
+
 class cronometro extends StatefulWidget {
   @override
   _cronometroState createState() => _cronometroState();
@@ -9,56 +60,16 @@ class cronometro extends StatefulWidget {
 
 class _cronometroState extends State<cronometro> {
   @override
-  bool _isStart = true;
-  String _stopwatchText = '00:00.000';
-  final _stopWatch = new Stopwatch();
-  final _timeout = const Duration(milliseconds: 1);
 
-  void _startTimeout() {
-    new Timer(_timeout, _handleTimeout);
+  Timer timer;
+  //Atualização dos setores
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(
+        Duration(milliseconds: 1), (Timer t) => setState(() {}));
   }
 
-  void _handleTimeout() {
-    if (_stopWatch.isRunning) {
-      _startTimeout();
-    }
-    setState(() {
-      _setStopwatchText();
-    });
-  }
 
-  void _startStopButtonPressed() {
-    setState(() {
-      if (_stopWatch.isRunning) {
-        _isStart = true;
-        _stopWatch.stop();
-      } else {
-        _isStart = false;
-        _stopWatch.start();
-        _startTimeout();
-      }
-    });
-  }
-
-  void _resetButtonPressed() {
-    if (_stopWatch.isRunning) {
-      _startStopButtonPressed();
-    }
-    setState(() {
-      _stopWatch.reset();
-      _setStopwatchText();
-    });
-  }
-
-  void _setStopwatchText() {
-    _stopwatchText = _stopWatch.elapsed.inMinutes.toString().padLeft(2, '0') +
-        ':' +
-        (_stopWatch.elapsed.inSeconds % 60).toString().padLeft(2, '0') +
-        ':' +
-        (_stopWatch.elapsed.inMilliseconds % 1000).toString().padLeft(3, '0');
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
@@ -66,7 +77,7 @@ class _cronometroState extends State<cronometro> {
           child: FittedBox(
             fit: BoxFit.none,
             child: Text(
-              _stopwatchText,
+              stopwatchText2,
               style: TextStyle(fontSize: 30),
             ),
           ),
@@ -79,13 +90,21 @@ class _cronometroState extends State<cronometro> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   RaisedButton(
-                    child: Icon(_isStart ? Icons.play_arrow : Icons.stop),
-                    onPressed: _startStopButtonPressed,
-                    color: Colors.yellow,
-                  ),
-                  RaisedButton(
-                    child: Text('Reset'),
-                    onPressed: _resetButtonPressed,
+                    child: Icon(
+                        flag2
+                            ? Icons.play_arrow
+                            : Icons.refresh),
+                    onPressed:(){
+                      setState(() {
+                        if(flag2 == true){
+                          startButtonPressed2();
+                          flag2 = false;
+                        }
+                        else{
+                          resetStartButtonPressed2();
+                        }
+                      });
+                  } ,
                     color: Colors.yellow,
                   ),
                 ],
@@ -95,5 +114,92 @@ class _cronometroState extends State<cronometro> {
         ),
       ],
     );
+  }
+}
+
+
+//Inicio cronometro
+bool isStart = true;
+String stopwatchText = '00:00.000';
+final stopWatch = new Stopwatch();
+final timeout = const Duration(milliseconds: 1);
+
+void startTimeout() {
+  new Timer(timeout, handleTimeout);
+}
+
+void handleTimeout() {
+  if (stopWatch.isRunning) {
+    startTimeout();
+  }
+    setStopwatchText();
+}
+
+void startButtonPressed() {
+    isStart = false;
+    stopWatch.start();
+    startTimeout();
+}
+
+void stopButtonPressed() {
+    if (stopWatch.isRunning) {
+      isStart = true;
+      stopWatch.stop();
+    }
+}
+
+void resetButtonPressed() {
+  if (stopWatch.isRunning) {
+    stopButtonPressed();
+  }
+    stopWatch.reset();
+    setStopwatchText();
+}
+
+void setStopwatchText() {
+  stopwatchText = stopWatch.elapsed.inMinutes.toString().padLeft(2, '0') +
+      ':' +
+      (stopWatch.elapsed.inSeconds % 60).toString().padLeft(2, '0') +
+      '.' +
+      (stopWatch.elapsed.inMilliseconds % 1000).toString().padLeft(3, '0');
+}
+//Cronometro final
+
+
+class oi extends StatefulWidget {
+  @override
+  _oiState createState() => _oiState();
+}
+
+class _oiState extends State<oi> {
+  Timer timer;
+  //Atualização dos setores
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(
+        Duration(milliseconds: 1), (Timer t) => setState(() {}));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(
+      fit: BoxFit.none,
+      child: Text(
+        stopwatchText,
+        style: TextStyle(fontSize: 30),
+      ),
+    );
+  }
+}
+
+class tempos extends StatefulWidget {
+  @override
+  _temposState createState() => _temposState();
+}
+
+class _temposState extends State<tempos> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
