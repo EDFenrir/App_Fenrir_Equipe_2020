@@ -4,10 +4,6 @@ import 'dart:async';
 import './getData.dart';
 import 'volta_atual.dart';
 
-List<String> temposVoltas = List<String>();
-int voltaAnterior = 1;
-int tempoVolta;
-List<int> listaTeste = List<int>();
 
 void main() {
   runApp(MyApp());
@@ -160,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child:Center(
                   child: flag
                     ? getData()
-                    : Text('oi'),
+                    : tempos(),
                 ),),
               ),
               Expanded(
@@ -281,10 +277,14 @@ class _MyHomePageState extends State<MyHomePage> {
       onPressed: () {
         setState(() {
           cleanList();
-          temposVoltas.clear();
           Navigator.pop(context);
           voltaAnterior = 1;
-          listaTeste.clear();
+          listaTempos.clear();
+          tempoVolta.clear();
+          resetButtonPressed();
+          Navigator.pop(context);
+          resetButtonPressed2();
+          flag2 = true;
         });
       },
     );
