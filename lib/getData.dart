@@ -182,18 +182,3 @@ class _velocidadeState extends State<velocidade> {
       );
   }
 }
-
-
-class tabs extends StatefulWidget {
-  @override
-  _tabsState createState() => _tabsState();
-}
-
-class _tabsState extends State<tabs> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-
-    );
-  }
-}
