@@ -172,12 +172,12 @@ void setStopwatchText() {
 //Cronometro final
 
 
-class oi extends StatefulWidget {
+class displayCronometro extends StatefulWidget {
   @override
-  _oiState createState() => _oiState();
+  _displayCronometroState createState() => _displayCronometroState();
 }
 
-class _oiState extends State<oi> {
+class _displayCronometroState extends State<displayCronometro> {
   Timer timer;
   //Atualização dos setores
   void initState() {
@@ -197,6 +197,7 @@ class _oiState extends State<oi> {
     );
   }
 }
+
 
 class tempos extends StatefulWidget {
   @override

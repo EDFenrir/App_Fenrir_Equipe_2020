@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     children: <Widget>[
                       Expanded(
-                        child: oi(),
+                        child: displayCronometro(),
                       ),
                     ],
                   ),
