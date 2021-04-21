@@ -11,21 +11,21 @@ void main() {
 
 //Início da criação do Widget
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget { //StatelessWidget = sem alteração; widget principal
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return MaterialApp( // MaterialApp = widget especial que confere a cara de aplicativo padrão
+      debugShowCheckedModeBanner: false, // debugShowCheckedModeBanner serve para mostrar que se está na página em questão
       theme: ThemeData(
-        primarySwatch: Colors.yellow,
+        primarySwatch: Colors.yellow, // tema da barra superior
       ),
       home: MyHomePage(title: 'Fenrir Equipe'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatefulWidget { // StatefulWidget = widget com estado, pode ser alterado 
   MyHomePage({Key key, this.title, post}) : super(key: key);
   final String title;
   @override
@@ -35,19 +35,19 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
 
-  bool flag = true;
+  bool flag = true; // Mudança de página
 
 
 
-  final ScrollController controller = ScrollController();
+  final ScrollController controller = ScrollController();  //ScrollController = controla um widget de rolagem
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return Scaffold( // Scaffold = implementa a estrutura básica de layout
+      appBar: AppBar( // AppBar = barra de aplicativos exibida na parte superior
         title: Text(widget.title),
       ),
       //Menu
-      drawer: Drawer(
-        child: ListView(
+      drawer: Drawer( // Drawer = barra de navegação que fica do lado com os botões
+        child: ListView( // ListView = widget de lista rolável de widgets organizados linearmente; começa no centro da página, exibirá as listas de voltas
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
@@ -114,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/fenrir.png'),
-                    fit: BoxFit.contain,
+                    fit: BoxFit.contain, // BoxFit diz respeito a como uma caixa deve ser inscrita em outra caixa, no caso, como a imagem deve ser inscrita
                     alignment: Alignment(0.0, -0.5),
                   ),
                 ),
@@ -157,12 +157,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: flag
                     ? getData()
                     : tempos(),
-                ),),
+                ),), // Dados recebidos do servidor
               ),
               Expanded(
                 flex: 1,
                 child: Container(
-                    child: Row(
+                    child: Row(  // Row = layout em linha
                   children: <Widget>[
                     Expanded(
                       flex: 1,
@@ -220,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Navigator.pop(context);
       },
     );
-    Widget continuaButton = FlatButton(
+    Widget continuaButton = FlatButton(  // FlatButton = Botão de Texto
       child: Text(
         "Continuar",
         style: TextStyle(
