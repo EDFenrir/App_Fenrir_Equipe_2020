@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       //Menu
       drawer: Drawer( // Drawer = barra de navegação que fica do lado com os botões
-        child: ListView( // ListView = widget de lista rolável de widgets organizados linearmente; começa no centro da página, exibirá as listas de voltas
+        child: ListView( // ListView = widget de lista rolável de widgets organizados linearmente
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
