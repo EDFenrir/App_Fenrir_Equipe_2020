@@ -13,7 +13,7 @@ void main() {
 
 class MyApp extends StatelessWidget { //StatelessWidget = sem alteração; widget principal
 
-  @override
+  @override // @override = sobreescrevendo a função build que irá devolver um Widget e que recebe um BuildContext
   Widget build(BuildContext context) {
     return MaterialApp( // MaterialApp = widget especial que confere a cara de aplicativo padrão
       debugShowCheckedModeBanner: false, // debugShowCheckedModeBanner serve para mostrar que se está na página em questão
@@ -191,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: (){
                             setState(() {
                               flag = false;
-                            });
+                            });  // Quando as abas com as listas são selecionadas ficam amarelas; quando não, permanecem brancas.
                           },
                         ),
                       )
