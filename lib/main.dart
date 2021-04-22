@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget { // StatefulWidget = widget com estado,
   final String title;
   @override
   _MyHomePageState createState() => _MyHomePageState();
-}
+} // Página inicial do aplicativo
 
 class _MyHomePageState extends State<MyHomePage> {
 
